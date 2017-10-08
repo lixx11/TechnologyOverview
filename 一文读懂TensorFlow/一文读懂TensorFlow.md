@@ -1,4 +1,4 @@
-# 一文综述TensorFlow——机器学习的工业标准
+# 一文读懂TensorFlow——机器学习的工业标准
 ![mindmap](img/TensorFlow.png)
 
 ## 人工智能、机器学习和深度学习
@@ -35,29 +35,6 @@ Google第一代分布式机器学习框架DistBelief在内部大规模使用后�
 * 2016年8月30日，TF-Slim——TensorFlow的高层库发布，用户可以更简单快速地定义模型。
 * 2017年2月15日，TensorFlow v1.0发布，提高了速度和灵活性，并且承诺提供稳定的Python API。
 
-
-## 其他机器学习框架
-### Caffe
-Caffe全称为Convolutional Architecture for Fast Feature Embedding，目前由BVLC（Berkeley Vision and Learning Center）进行维护。其创始人是加州大学伯克利的Ph.D.贾杨清，后来曾在Google Brain工作，开发TensorFlow。
-
-Caffe优点在于使用配置文件方式定义网络，容易上手。训练速度快，而且有大量训练好的经典模型。组件模块化，方便拓展到新的模型上。
-
-Caffe最开始设计是只是针对图像，没有考虑文本、语音或者时间序列的数据，因此对卷积神经网络的支持很好，但是时间序列RNN、LSTM等支持不是很充分。要实现新的神经网络模块（Layer）时，需要用户自己写C++或CUDA代码实现正向和反向算法，对新用户有一定的难度。Caffe没有原生的分布式支持，官方仅支持单机多CPU的训练，不过有些第三方的支持，如雅虎开源的CaffeOnSpark，可借助Spark的分布式框架实现Caffe的大规模分布式训练。
-
-### Theano
-Theano诞生于2008年，由蒙特利尔大学Lisa Lab开发维护，可以算是机器学习库的始祖之一。其主要优势在于：
-
-* 集成Numpy，可以直接使用Numpy的ndarray，接口学习成本低。
-* 计算稳定性好，比如可以精确地计算输出值很小的函数。
-* 动态生成C或者CUDA代码，用以编译成高效的机器代码。
-
-Theano在学术界很流行，有丰富的文档和教程。但是移植性较差，没有底层C++的结构，模型的部署非常不方便，并且不支持各种移动设备，几乎没有在工业生产环境中的应用。
-
-### Torch
-Torch的定位是LuaJIT上的高效的科学计算库，其历史非常悠久，但真正发扬光大是在Facebook开源了其深度学习的组件之后。Torch与TensorFlow一样，采用了底层C++加脚本语言调用的方式，不过Torch使用的是Lua，其性能非常优秀，常见的代码通过JIT优化可以到C的性能的80%，但是相对Python并不是那么主流，对多数用户有学习成本。另外，Torch与Theano和TensorFlow采用符号编程模式不同，其采用命令式编程模式，所以实现某些复杂操作以及debug时更方便。
-
-### Keras
-Keras是一个崇尚极简、高度模块化的神经网络库，使用Python实现，可以运行在TensorFlow或Theano上，旨在让用户进行最快速的原型实验。不同于Theano、TensorFlow等支持通用的数值计算，Keras专注于深度学习，它提供了目前为止最方便的API，用户只需要将高级的模块拼在一起，就可以搭建神经网络，大大降低了编程开销、Keras所有模块都是简洁、易懂、完全可配置、可任意插拔的，基本没有使用限制，神经网络、损失函数、优化器、初始化方法、激活函数和正则化等模块都可以自由组合。使用Keras，只需要几行就可以实现一个MLP，十几行就可以实现一个AlexNet。如果Theano和TensorFlow是深度学习领域的Numpy，那么Keras就是这个领域的scikit-learn。Keras最大的问题就是目前无法直接使用多GPU，所以对大规模的数据处理速度没有其他支持多GPU和分布式的框架快。
 
 ## TensorFlow架构
 ![TF Architecture](img/TF_architecture.png)
@@ -419,6 +396,21 @@ print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}
 这个最终结果值应该大约是92%。
 
 
+## 其他机器学习框架
+### Caffe
+Caffe全称为Convolutional Architecture for Fast Feature Embedding，目前由BVLC（Berkeley Vision and Learning Center）进行维护。其创始人是加州大学伯克利的Ph.D.贾杨清，后来曾在Google Brain工作，开发TensorFlow。
+
+Caffe优点在于使用配置文件方式定义网络，容易上手。训练速度快，而且有大量训练好的经典模型。组件模块化，方便拓展到新的模型上。
+
+Caffe最开始设计是只是针对图像，没有考虑文本、语音或者时间序列的数据，因此对卷积神经网络的支持很好，但是时间序列RNN、LSTM等支持不是很充分。要实现新的神经网络模块（Layer）时，需要用户自己写C++或CUDA代码实现正向和反向算法，对新用户有一定的难度。Caffe没有原生的分布式支持，官方仅支持单机多CPU的训练，不过有些第三方的支持，如雅虎开源的CaffeOnSpark，可借助Spark的分布式框架实现Caffe的大规模分布式训练。
+
+### Torch
+Torch的定位是LuaJIT上的高效的科学计算库，其历史非常悠久，但真正发扬光大是在Facebook开源了其深度学习的组件之后。Torch与TensorFlow一样，采用了底层C++加脚本语言调用的方式，不过Torch使用的是Lua，其性能非常优秀，常见的代码通过JIT优化可以到C的性能的80%，但是相对Python并不是那么主流，对多数用户有学习成本。另外，Torch与Theano和TensorFlow采用符号编程模式不同，其采用命令式编程模式，所以实现某些复杂操作以及debug时更方便。
+
+### Keras
+Keras是一个崇尚极简、高度模块化的神经网络库，使用Python实现，可以运行在TensorFlow或Theano上，旨在让用户进行最快速的原型实验。不同于Theano、TensorFlow等支持通用的数值计算，Keras专注于深度学习，它提供了目前为止最方便的API，用户只需要将高级的模块拼在一起，就可以搭建神经网络，大大降低了编程开销、Keras所有模块都是简洁、易懂、完全可配置、可任意插拔的，基本没有使用限制，神经网络、损失函数、优化器、初始化方法、激活函数和正则化等模块都可以自由组合。使用Keras，只需要几行就可以实现一个MLP，十几行就可以实现一个AlexNet。如果Theano和TensorFlow是深度学习领域的Numpy，那么Keras就是这个领域的scikit-learn。Keras最大的问题就是目前无法直接使用多GPU，所以对大规模的数据处理速度没有其他支持多GPU和分布式的框架快。
+
+
 ## 参考资料
 ### 官网
 * [TensorFlow Website](https://www.tensorflow.org)(最权威、详细的文档)
@@ -429,8 +421,8 @@ print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}
 * [Siraj的TF教程](https://www.youtube.com/watch?v=Se9ByBnKb0o&list=PLXO45tsB95cJHXaDKpbwr5fC_CCYylw1f)
 
 ### 书
-* [Python Machine Learning](https://www.amazon.com/Python-Machine-Learning-Sebastian-Raschka/dp/1783555130/ref=sr_1_1?ie=UTF8&qid=1491489025&sr=8-1&keywords=python+machine+learning)(常用机器学习算法讲解与实践)
-* [TensorFlow实战](https://item.jd.com/12125568.html)(TensorFlow实现多种机器学习算法)
+* [Python Machine Learning](https://www.amazon.com/Python-Machine-Learning-Sebastian-Raschka/dp/1783555130/ref=sr_1_1?ie=UTF8&qid=1491489025&sr=8-1&keywords=python+machine+learning)(常用机器学习算法讲解与实践 -- Sebastian Raschka)
+* [TensorFlow实战](https://item.jd.com/12125568.html)(TensorFlow实现多种机器学习算法 -- 黄文坚，唐源)
 
 ### 文章
 * [深入浅出Tensorflow（一）：深度学习及TensorFlow简介](http://www.infoq.com/cn/articles/introduction-of-tensorflow-part01)
